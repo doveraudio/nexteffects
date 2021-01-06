@@ -1,11 +1,13 @@
-import ResultSelectOption from '../components/resultselectoption'
+import ResultSelectOption from '../components/resultselectoption';
+import React from 'react';
 function ResultSelectBox(props) {
 
 
+
     return (
-        <select>
+        <select onChange={e => props.select(e.target.value)}>
             {props.results.map(result =>
-                <ResultSelectOption key={result.key} value={result.key} title={result.title} author_name={result.author_name} />
+                <ResultSelectOption id={result.key} value={result.key} key={result.key} title={result.title} author_name={result.author_name} />
             )}
         </select>
     )
