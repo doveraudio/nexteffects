@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import SearchResults from "../components/searchresults";
 import ResultSelectBox from "../components/resultselectbox";
 import InfoCard from '../components/infocard';
+import { Container, TextareaAutosize } from '@material-ui/core';
+
 function SearchForm(props) {
     const [query, setQuery] = useState("");
     const [search, setSearch] = useState("");
@@ -13,12 +15,10 @@ function SearchForm(props) {
     useEffect(() => {
         async function callOpenLibrary() {
             if (search !== "") {
-                var tempResult = await fetch('http://openlibrary.org/search.json?q=' + search).then(res => res.json());
-                if (Array.isArray(tempResult.docs)) {
-                    setResults(tempResult.docs);
-                } else {
-                    setResults([]);
-                }
+                await fetch('http://openlibrary.org/search.json?q=' + search)
+                    .then(res => res.json())
+                    .then(jsonData => (Array.isArray(jsonData.docs ? setResults(jsonData.docs) : setResults([]))));
+
             }
 
         }
@@ -29,20 +29,19 @@ function SearchForm(props) {
         async function retrieveRecord() {
             if (selection !== "") {
                 console.log("Stored Key:" + selection);
-                var tempKey = results.filter(r => { return r.key == selection; })[0];
-                console.log("Books Api Key" + tempKey.seed[0]);
-                var tempRecord = await fetch('http://openlibrary.org' + selection + '.json').then(res => res.json());
-                /*
-                if (selection.includes('/books/')) {
+                var tempResult = results.filter(r => { return r.key == selection; })[0];
+                console.log("Books Api Key" + tempResult.seed[0]);
+                var tempBook = await fetch('http://openlibrary.org' + selection + '.json').then(res => res.json());
+                var tempWork = await fetch('http://openlibrary.org' + tempResult.seed[0] + '.json').then(res => res.json());
+                var tempRecord = {
+                    id: selection,
+                    result: tempResult,
+                    book: tempBook,
+                    work: tempWork,
+                    authors: tempResult.authors
 
-                    tempRecord = await fetch('http://openlibrary.org' + selection + '.json').then(res => res.json());
-
-                } else {
-
-                    tempRecord = await fetch('http://openlibrary.org' + tempKey.seed[0] + '.json').then(res => res.json());
-                }*/
-
-                console.log(tempRecord);
+                };
+                //console.log(tempRecord);
                 setRecord(tempRecord);
             }
         }
@@ -50,17 +49,22 @@ function SearchForm(props) {
     }, [selection]);
 
     useEffect(() => {
-        console.log(record);
+        //console.log(record);
     }, [record]);
-
+    //Query: {query} Search: {search} <br />
     return <>
-        <label> Search OpenLibrary<br />
-            <input type="text" placeholder={(props.placeholder ? props.placeholder : "Search Term")} value={query} onChange={e => setQuery(e.target.value)} />
-            <button type="button" onClick={() => setSearch(query)}>Search</button><br />
-            Query: {query} Search: {search} <br />
-            <ResultSelectBox results={results} value={selection} select={selection => setSelection(selection)} />
-            <InfoCard record={record} />
-        </label>
+
+        <Container maxWidth="md">
+            <label> Search OpenLibrary<br />
+                <input type="text" placeholder={(props.placeholder ? props.placeholder : "Search Term")} value={query} onChange={e => setQuery(e.target.value)} />
+                <button type="button" onClick={() => setSearch(query)}>Search</button><br />
+
+                <ResultSelectBox results={results} value={selection} select={selection => setSelection(selection)} />
+
+                <InfoCard record={record} />
+
+            </label>
+        </Container>
     </>
 }
 export default SearchForm
