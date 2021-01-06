@@ -35,7 +35,7 @@ function InfoCard(props) {
                 <CardContent>
                     <Typography variant="h5" component="h2" >{record.work.title}</Typography>
                     <Typography variant="h5" component="h2">{record.result.subtitle}</Typography>
-                    <Typography>{(record.result.author_name.length > 1 ? record.result.author_name.join(', ') : record.result.author_name[0])}</Typography>
+                    <Typography>{((record.result.author_name !== undefined ? (record.result.author_name.length > 1 ? record.result.author_name.join(', ') : record.result.author_name[0]) : ""))}</Typography>
                     <Typography className={classes.title} >{(record.result.isbn !== undefined ? `ISBN-10: ${record.result.isbn[0]}` : "No ISBN")}</Typography>
                     <Typography className={classes.title} >{(record.result.isbn !== undefined ? `ISBN-30: ${record.result.isbn[1]}` : "No ISBN 30")}</Typography>
                     <Typography className={classes.title} >{(record.book.description !== undefined ? record.book.description.value : "")}</Typography>
