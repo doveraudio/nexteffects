@@ -9,17 +9,26 @@ function SearchForm(props) {
     const [search, setSearch] = useState("");
     const [results, setResults] = useState([]);
     const [selection, setSelection] = useState("");
-    const [record, setRecord] = useState({});
+    const [record, setRecord] = useState(undefined);
 
 
+    function setSelected() {
+        if (results.length > 0) {
+            console.log(results);
+            setSelection(results[0].key)
+
+        }
+    }
     useEffect(() => {
 
         async function callOpenLibrary() {
+
             if (search != "") {
-                var tempSearch = await fetch('/api/search?q=' + search).then(res => res.json())
-                    .then(jsonData => (Array.isArray(jsonData ? setResults(jsonData) : setResults([])))
-                    )
+                var tempSearch = await fetch('/api/search?q=' + search)
+                    .then(res => res.json())
+                    .then(jsonData => (Array.isArray(jsonData ? setResults(jsonData) : setResults([]))))
                     .catch(error => console.log(error));
+
 
             }
 
@@ -28,14 +37,15 @@ function SearchForm(props) {
     }, [search]);
 
     useEffect(() => {
-        async function retrieveRecord() {
+        async function retreiveRecord() {
 
             if (selection !== "") {
-                // console.log("Stored Key:" + selection);
+                console.log(selection);
                 var tempResult = results.filter(r => { return r.key == selection; })[0];
-                //console.log("Books Api Key:" + tempResult.seed[0]);
                 var tempBook = await fetch('/api/retreive?selection=' + tempResult.seed[0]).then(res => res.json());
                 var tempWork = await fetch('/api/retreive?selection=' + selection).then(res => res.json());
+                // console.log("Stored Key:" + selection);
+                //console.log("Books Api Key:" + tempResult.seed[0]);
                 var tempRecord = {
                     id: selection,
                     result: tempResult,
@@ -47,9 +57,13 @@ function SearchForm(props) {
                 setRecord(tempRecord);
             }
         }
-        retrieveRecord();
+        retreiveRecord();
     }, [selection]);
-
+    useEffect(() => {
+        if (results.length > 0) {
+            setSelected();
+        }
+    }, results);
     useEffect(() => {
         //console.log(record);
     }, [record]);

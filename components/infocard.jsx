@@ -28,12 +28,11 @@ function InfoCard(props) {
         window.open("https://www.abebooks.com/servlet/SearchResults?isbn=" + record.result.isbn[0], '_blank');
     }
     const classes = useStyles();
-    let record = {};
-    if (props.record != undefined) {
-        record = props.record;
-        console.log(record);
-    }
-    if (record.book !== undefined) {
+    var record = props.record;
+    console.log(record);
+    console.log(props.record);
+
+    if (record !== undefined) {
         return <>
             <Card>
                 <CardContent>
