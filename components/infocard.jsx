@@ -23,9 +23,7 @@ function InfoCard(props) {
     function openGoodreads() {
         window.open("https://www.goodreads.com/book/isbn/" + record.result.isbn[0], '_blank');
     }
-    function openGoodreads() {
-        window.open("https://www.goodreads.com/book/isbn/" + record.result.isbn[0], '_blank');
-    }
+
     function openAbeBooks() {
         window.open("https://www.abebooks.com/servlet/SearchResults?isbn=" + record.result.isbn[0], '_blank');
     }

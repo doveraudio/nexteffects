@@ -13,11 +13,15 @@ function SearchForm(props) {
 
 
     useEffect(() => {
+        var headers = {
+            'Content-Type': 'application/json'
+        };
         async function callOpenLibrary() {
-            if (search !== "") {
-                await fetch('http://openlibrary.org/search.json?q=' + search)
-                    .then(res => res.json())
-                    .then(jsonData => (Array.isArray(jsonData.docs ? setResults(jsonData.docs) : setResults([]))));
+            if (search != "") {
+                var tempSearch = await fetch('/api/search?q=' + search).then(res => res.json())
+                    .then(jsonData => (Array.isArray(jsonData ? setResults(jsonData) : setResults([])))
+                    )
+                    .catch(error => console.log(error));
 
             }
 
@@ -27,12 +31,13 @@ function SearchForm(props) {
 
     useEffect(() => {
         async function retrieveRecord() {
+
             if (selection !== "") {
-                console.log("Stored Key:" + selection);
+                // console.log("Stored Key:" + selection);
                 var tempResult = results.filter(r => { return r.key == selection; })[0];
-                console.log("Books Api Key" + tempResult.seed[0]);
-                var tempBook = await fetch('http://openlibrary.org' + selection + '.json').then(res => res.json());
-                var tempWork = await fetch('http://openlibrary.org' + tempResult.seed[0] + '.json').then(res => res.json());
+                //console.log("Books Api Key:" + tempResult.seed[0]);
+                var tempBook = await fetch('/api/retreive?selection=' + tempResult.seed[0]).then(res => res.json());
+                var tempWork = await fetch('/api/retreive?selection=' + selection).then(res => res.json());
                 var tempRecord = {
                     id: selection,
                     result: tempResult,
@@ -41,7 +46,6 @@ function SearchForm(props) {
                     authors: tempResult.authors
 
                 };
-                //console.log(tempRecord);
                 setRecord(tempRecord);
             }
         }
@@ -51,6 +55,7 @@ function SearchForm(props) {
     useEffect(() => {
         //console.log(record);
     }, [record]);
+    // saved incase of ui errors during layout process
     //Query: {query} Search: {search} <br />
     return <>
 
