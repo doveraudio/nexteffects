@@ -15,7 +15,7 @@ function SearchForm(props) {
     function setSelected() {
         if (results.length > 0) {
             console.log(results);
-            setSelection(results[0].key)
+            setSelection(results[0].key);
 
         }
     }
@@ -34,6 +34,7 @@ function SearchForm(props) {
 
         }
         callOpenLibrary();
+
     }, [search]);
 
     useEffect(() => {
@@ -42,6 +43,7 @@ function SearchForm(props) {
             if (selection !== "") {
                 console.log(selection);
                 var tempResult = results.filter(r => { return r.key == selection; })[0];
+                console.log(tempResult);
                 var tempBook = await fetch('/api/retreive?selection=' + tempResult.seed[0]).then(res => res.json());
                 var tempWork = await fetch('/api/retreive?selection=' + selection).then(res => res.json());
                 // console.log("Stored Key:" + selection);
@@ -59,11 +61,15 @@ function SearchForm(props) {
         }
         retreiveRecord();
     }, [selection]);
+
     useEffect(() => {
+
         if (results.length > 0) {
-            setSelected();
+            console.log(results);
+            setSelection(results[0].key);
+
         }
-    }, results);
+    }, [results]);
     useEffect(() => {
         //console.log(record);
     }, [record]);
