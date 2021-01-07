@@ -29,16 +29,16 @@ function InfoCard(props) {
     }
     const classes = useStyles();
     let record = {};
-    if (props.record.book != undefined) {
+    if (props.record != undefined) {
         record = props.record;
+        console.log(record);
     }
-    console.log(record);
     if (record.book !== undefined) {
         return <>
             <Card>
                 <CardContent>
-                    <Typography variant="h5" component="h2" >{record.work.title}</Typography>
-                    <Typography variant="h5" component="h2">{record.work.subtitle}</Typography>
+                    <Typography variant="h5" component="h2" >{(record.book.full_title !== undefined ? record.book.full_title : record.work.title)}</Typography>
+                    <Typography variant="h5" component="h2">{record.book.subtitle}</Typography>
                     <Typography>{((record.result.author_name !== undefined ? (record.result.author_name.length > 1 ? record.result.author_name.join(', ') : record.result.author_name[0]) : ""))}</Typography>
                     <Typography className={classes.title} >{(record.result.isbn !== undefined ? `ISBN-10: ${record.result.isbn[0]}` : "No ISBN")}</Typography>
                     <Typography className={classes.title} >{(record.result.isbn !== undefined ? `ISBN-30: ${record.result.isbn[1]}` : "No ISBN 30")}</Typography>

@@ -13,9 +13,7 @@ function SearchForm(props) {
 
 
     useEffect(() => {
-        var headers = {
-            'Content-Type': 'application/json'
-        };
+
         async function callOpenLibrary() {
             if (search != "") {
                 var tempSearch = await fetch('/api/search?q=' + search).then(res => res.json())
