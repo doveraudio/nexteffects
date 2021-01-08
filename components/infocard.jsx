@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { ImageCard } from '../components/imagecard';
 import { Card, CardActions, CardMedia, CardContent, Button, Typography } from '@material-ui/core';
 const useStyles = makeStyles({
     root: {
@@ -12,7 +13,8 @@ const useStyles = makeStyles({
     },
     media: {
 
-        width: 180,
+        width: 220,
+        //paddingBottom: '10%',
         //paddingTop: '56.25%', // 16:9
 
     },
@@ -56,27 +58,36 @@ function InfoCard(props) {
             window.open("https://www.abebooks.com/servlet/SearchResults?isbn=" + record.result.isbn[0], '_blank');
         }
     }
+    function openOpenLibrary() {
+        if (record.result.isbn !== undefined) {
+            window.open("http://openlibrary.org/isbn/" + record.result.isbn[0], '_blank');
+        }
+    }
 
 
     const classes = useStyles();
     if (record !== undefined) {
         if (record.result.isbn !== undefined) {
-            imageurl = "http://covers.openlibrary.org/b/isbn/" + record.result.isbn[0] + "-M.jpg";
+            imageurl = "http://covers.openlibrary.org/b/id/" + record.result.cover_i + "-M.jpg";
+            //imageurl = "http://covers.openlibrary.org/b/isbn/" + record.result.isbn[0] + "-M.jpg";
+            //imageurl = record.book.thumbnail_url;
         } else { imgHeight = "0%"; }
         return <>
             <Card className={classes.root}>
                 <CardContent>
-                    <CardMedia component="img" height="50%" image={imageurl} className={classes.media} title={record.work.title + " cover"} />
+                    <CardMedia component="img" height={imgHeight} image={imageurl} className={classes.media} title={record.work.title + " cover"} />
                     <Typography className={classes.title} variant="h5" component="h2" >{(record.book.full_title !== undefined ? record.book.full_title : record.work.title)}</Typography>
                     <Typography className={classes.subtitle} variant="h5" component="h2">{record.book.subtitle}</Typography>
                     <Typography className={classes.author} >{((record.result.author_name !== undefined ? (record.result.author_name.length > 1 ? record.result.author_name.join(', ') : record.result.author_name[0]) : ""))}</Typography>
                     <Typography className={classes.isbn} >{(record.result.isbn !== undefined ? `ISBN-13: ${record.result.isbn[0]}` : "No ISBN 13")}</Typography>
                     <Typography className={classes.isbn} >{(record.result.isbn !== undefined ? `ISBN-10: ${record.result.isbn[1]}` : "No ISBN 10")}</Typography>
                     <Typography className={classes.text} >{(record.book.description !== undefined ? record.book.description.value : "")}</Typography>
+                    <Typography className={classes.text} >{(record.book.thumbnail_url !== undefined ? record.book.thumbnail_url : "")}</Typography>
 
                 </CardContent>
                 <CardActions>
                     <Button onClick={logRecord}>Add to Book List</Button>
+                    <Button onClick={openOpenLibrary}>Find on OpenLibrary</Button>
                     <Button onClick={openGoodreads}>Find on goodreads</Button>
                     <Button onClick={openAbeBooks}>Find on Abe Books</Button>
                 </CardActions>
