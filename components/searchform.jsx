@@ -10,7 +10,7 @@ function SearchForm(props) {
     const [results, setResults] = useState([]);
     const [selection, setSelection] = useState("");
     const [record, setRecord] = useState(undefined);
-
+    const [loading, setLoading] = useState(false);
 
     function setSelected() {
         if (results.length > 0) {
@@ -46,6 +46,10 @@ function SearchForm(props) {
                 console.log(tempResult);
                 var tempBook = await fetch('/api/retreive?selection=' + tempResult.seed[0]).then(res => res.json());
                 var tempWork = await fetch('/api/retreive?selection=' + selection).then(res => res.json());
+                var tempAuthors = [];
+                if (tempResult.author_key != undefined) {
+                    tempAuthors = await fetch('api/retreive?selection=/authors/' + tempResult.author_key[0]).then(res => res.json());
+                }
                 // console.log("Stored Key:" + selection);
                 //console.log("Books Api Key:" + tempResult.seed[0]);
                 var tempRecord = {
@@ -53,7 +57,7 @@ function SearchForm(props) {
                     result: tempResult,
                     book: tempBook,
                     work: tempWork,
-                    authors: tempResult.authors
+                    authors: tempAuthors,
 
                 };
                 setRecord(tempRecord);
