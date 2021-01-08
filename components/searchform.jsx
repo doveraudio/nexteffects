@@ -91,7 +91,7 @@ function SearchForm(props) {
     return <>
 
         <Container maxWidth="md">
-            <label> Search OpenLibrary<br />
+            <label> <h2>Search OpenLibrary</h2><br />
                 <TextField className="searchbox" type="text" placeholder={(props.placeholder ? props.placeholder : "Search Term")} value={query} onChange={e => setQuery(e.target.value)} />
                 <Button
                     size="small"

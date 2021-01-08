@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ImageCard from '../components/imagecard';
 import { Card, CardActions, CardMedia, CardContent, Button, Typography } from '@material-ui/core';
+import { purple } from '@material-ui/core/colors';
 const useStyles = makeStyles({
     root: {
         minWidth: 275,
@@ -42,6 +43,7 @@ const useStyles = makeStyles({
 
 function InfoCard(props) {
     const classes = useStyles();
+    const violet = purple[400];
     var imageurl = "";
     var imgHeight = "50%";
     var record = props.record;
@@ -86,10 +88,26 @@ function InfoCard(props) {
 
                 </CardContent>
                 <CardActions>
-                    <Button onClick={logRecord}>Add to Book List</Button>
-                    <Button onClick={openOpenLibrary}>Find on OpenLibrary</Button>
-                    <Button onClick={openGoodreads}>Find on goodreads</Button>
-                    <Button onClick={openAbeBooks}>Find on Abe Books</Button>
+                    <Button
+                        size="small"
+                        variant="contained"
+                        color="primary"
+                        onClick={logRecord}>Add to Book List</Button>
+                    <Button
+                        size="small"
+                        variant="contained"
+                        color="primary"
+                        onClick={openOpenLibrary}>Find on OpenLibrary</Button>
+                    <Button
+                        size="small"
+                        variant="contained"
+                        color="primary"
+                        onClick={openGoodreads}>Find on goodreads</Button>
+                    <Button
+                        size="small"
+                        variant="contained"
+                        color="primary"
+                        onClick={openAbeBooks}>Find on Abe Books</Button>
                 </CardActions>
             </Card>
         </>
