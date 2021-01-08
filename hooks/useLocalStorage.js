@@ -6,6 +6,7 @@ function getSavedValue(key, initialValue) {
     if (nitialValue instanceof Function) return initialValue();
     return initialValue;
 }
+
 export default function useLocalStorage(initialValue) {
     const [value, setValue] = useState(() => { return getSavedValue(key, initialValue) });
 

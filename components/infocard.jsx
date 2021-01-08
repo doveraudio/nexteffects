@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { ImageCard } from '../components/imagecard';
+import ImageCard from '../components/imagecard';
 import { Card, CardActions, CardMedia, CardContent, Button, Typography } from '@material-ui/core';
 const useStyles = makeStyles({
     root: {
@@ -41,6 +41,7 @@ const useStyles = makeStyles({
 
 
 function InfoCard(props) {
+    const classes = useStyles();
     var imageurl = "";
     var imgHeight = "50%";
     var record = props.record;
@@ -59,15 +60,14 @@ function InfoCard(props) {
         }
     }
     function openOpenLibrary() {
-        if (record.result.isbn !== undefined) {
-            window.open("http://openlibrary.org/isbn/" + record.result.isbn[0], '_blank');
+        if (record.result.edition_key[0] !== undefined) {
+            window.open("http://openlibrary.org/books/" + record.result.edition_key[0], '_blank');
         }
     }
 
 
-    const classes = useStyles();
     if (record !== undefined) {
-        if (record.result.isbn !== undefined) {
+        if (record.result.cover_i !== undefined) {
             imageurl = "http://covers.openlibrary.org/b/id/" + record.result.cover_i + "-M.jpg";
             //imageurl = "http://covers.openlibrary.org/b/isbn/" + record.result.isbn[0] + "-M.jpg";
             //imageurl = record.book.thumbnail_url;
@@ -75,7 +75,7 @@ function InfoCard(props) {
         return <>
             <Card className={classes.root}>
                 <CardContent>
-                    <CardMedia component="img" height={imgHeight} image={imageurl} className={classes.media} title={record.work.title + " cover"} />
+                    <ImageCard imgHeight={imgHeight} imageurl={imageurl} cover_i={record.result.cover_i} css={classes.media} title={record.work.title + " cover"} />
                     <Typography className={classes.title} variant="h5" component="h2" >{(record.book.full_title !== undefined ? record.book.full_title : record.work.title)}</Typography>
                     <Typography className={classes.subtitle} variant="h5" component="h2">{record.book.subtitle}</Typography>
                     <Typography className={classes.author} >{((record.result.author_name !== undefined ? (record.result.author_name.length > 1 ? record.result.author_name.join(', ') : record.result.author_name[0]) : ""))}</Typography>

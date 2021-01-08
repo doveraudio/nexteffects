@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import SearchResults from "../components/searchresults";
 import ResultSelectBox from "../components/resultselectbox";
 import InfoCard from '../components/infocard';
-import { Container, TextareaAutosize } from '@material-ui/core';
+import { Container, Button, TextareaAutosize, TextField } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 function SearchForm(props) {
     const [query, setQuery] = useState("");
@@ -12,6 +14,12 @@ function SearchForm(props) {
     const [record, setRecord] = useState(undefined);
     const [loading, setLoading] = useState(false);
 
+    const useStyles = makeStyles({
+        searchbox: {
+            width: 275,
+        },
+    });
+    const classes = useStyles();
     function setSelected() {
         if (results.length > 0) {
             console.log(results);
@@ -79,12 +87,17 @@ function SearchForm(props) {
     }, [record]);
     // saved incase of ui errors during layout process
     //Query: {query} Search: {search} <br />
+    //<input type="text" placeholder={(props.placeholder ? props.placeholder : "Search Term")} value={query} onChange={e => setQuery(e.target.value)} />
     return <>
 
         <Container maxWidth="md">
             <label> Search OpenLibrary<br />
-                <input type="text" placeholder={(props.placeholder ? props.placeholder : "Search Term")} value={query} onChange={e => setQuery(e.target.value)} />
-                <button type="button" onClick={() => setSearch(query)}>Search</button><br />
+                <TextField className="searchbox" type="text" placeholder={(props.placeholder ? props.placeholder : "Search Term")} value={query} onChange={e => setQuery(e.target.value)} />
+                <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setSearch(query)}>Search</Button><br />
 
                 <ResultSelectBox results={results} value={selection} select={selection => setSelection(selection)} />
 

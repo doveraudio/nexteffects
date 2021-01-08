@@ -1,7 +1,17 @@
-import React from 'react';
 import { CardMedia } from '@material-ui/core';
-export default function ImageCard(props) {
+import MenuItem from '@material-ui/core/MenuItem';
+function ImageCard(props) {
+    console.log(props.cover_i);
+    //if (props.id.includes("/books/")) { console.log(props.id + "<--- book key"); } else if (props.id.includes("/works/")) { console.log("work Key : " + props.id) }
+    if (props.cover_i !== undefined) {
+        return (
+            <CardMedia component="img" height={props.imgHeight} image={props.imageurl} className={props.css} title={props.title} />
 
+        )
+    } else {
+        return (<span></span>)
+    }
 
-    return <><CardMedia component="img" height={props.imgHeight} image={props.imageurl} className={props.media} title={props.title} /></>
 }
+
+export default ImageCard;

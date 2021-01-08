@@ -10,7 +10,7 @@ function ResultSelectBox(props) {
         return (<>
             <NativeSelect id="searchMenu" defaultValue="0" onChange={(e => props.select(e.target.value))}>
                 {props.results.map(result =>
-                    <ResultSelectOption id={result.key} value={result.key} key={result.key} title={result.title} author_name={result.author_name} />
+                    <ResultSelectOption width="500px" id={result.key} value={result.key} key={result.key} title={result.title} author_name={result.author_name} />
                 )}
             </NativeSelect></>
         )
